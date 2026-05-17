@@ -406,7 +406,6 @@ def main():
     app = (
         ApplicationBuilder()
         .token(TELEGRAM_TOKEN)
-        .post_init(on_startup)
         .build()
     )
     app.add_handler(CommandHandler("start",     cmd_start))

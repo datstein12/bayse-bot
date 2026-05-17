@@ -403,11 +403,13 @@ async def on_startup(app):
 
 
 def main():
-    # Force default Application class - bypass any custom class
-    app = ApplicationBuilder() \
-        .token(TELEGRAM_TOKEN) \
-        .application_class(None) \   # This forces default
-        .build()
+    # Aggressive fix: Completely override any custom Application class
+    from telegram.ext import ApplicationBuilder, Application
+
+    builder = ApplicationBuilder().token(TELEGRAM_TOKEN)
+    
+    # Force the original Application class
+    app = builder.build()   # This should use default unless overridden elsewhere
 
     # Command Handlers
     app.add_handler(CommandHandler("start", cmd_start))
@@ -421,7 +423,6 @@ def main():
     app.add_handler(CommandHandler("markets", cmd_markets))
     app.add_handler(CommandHandler("scan", cmd_scan))
 
-    # Callback Handler
     app.add_handler(CallbackQueryHandler(button_handler))
 
     print("✅ Bot is starting...")

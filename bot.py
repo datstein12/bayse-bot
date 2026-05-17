@@ -403,11 +403,8 @@ async def on_startup(app):
 
 
 def main():
-    app = (
-        ApplicationBuilder()
-        .token(TELEGRAM_TOKEN)
-        .build()
-    )
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+
     app.add_handler(CommandHandler("start",     cmd_start))
     app.add_handler(CommandHandler("help",      cmd_help))
     app.add_handler(CommandHandler("autotrade", cmd_autotrade))
@@ -419,6 +416,7 @@ def main():
     app.add_handler(CommandHandler("markets",   cmd_markets))
     app.add_handler(CommandHandler("scan",      cmd_scan))
     app.add_handler(CallbackQueryHandler(button_handler))
+
     log.info("Polling…")
     app.run_polling()
 

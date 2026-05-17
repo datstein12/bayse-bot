@@ -403,8 +403,11 @@ async def on_startup(app):
 
 
 def main():
-    # Temporary fix: Force default Application class
-    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+    # Force default Application class - bypass any custom class
+    app = ApplicationBuilder() \
+        .token(TELEGRAM_TOKEN) \
+        .application_class(None) \   # This forces default
+        .build()
 
     # Command Handlers
     app.add_handler(CommandHandler("start", cmd_start))
@@ -418,7 +421,7 @@ def main():
     app.add_handler(CommandHandler("markets", cmd_markets))
     app.add_handler(CommandHandler("scan", cmd_scan))
 
-    # Callback Handler for buttons
+    # Callback Handler
     app.add_handler(CallbackQueryHandler(button_handler))
 
     print("✅ Bot is starting...")

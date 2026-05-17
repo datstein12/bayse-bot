@@ -403,21 +403,25 @@ async def on_startup(app):
 
 
 def main():
+    # Temporary fix: Force default Application class
     app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
-    app.add_handler(CommandHandler("start",     cmd_start))
-    app.add_handler(CommandHandler("help",      cmd_help))
+    # Command Handlers
+    app.add_handler(CommandHandler("start", cmd_start))
+    app.add_handler(CommandHandler("help", cmd_help))
     app.add_handler(CommandHandler("autotrade", cmd_autotrade))
-    app.add_handler(CommandHandler("status",    cmd_status))
-    app.add_handler(CommandHandler("balance",   cmd_balance))
+    app.add_handler(CommandHandler("status", cmd_status))
+    app.add_handler(CommandHandler("balance", cmd_balance))
     app.add_handler(CommandHandler("portfolio", cmd_portfolio))
-    app.add_handler(CommandHandler("pnl",       cmd_pnl))
-    app.add_handler(CommandHandler("trades",    cmd_trades))
-    app.add_handler(CommandHandler("markets",   cmd_markets))
-    app.add_handler(CommandHandler("scan",      cmd_scan))
+    app.add_handler(CommandHandler("pn1", cmd_pn1))
+    app.add_handler(CommandHandler("trades", cmd_trades))
+    app.add_handler(CommandHandler("markets", cmd_markets))
+    app.add_handler(CommandHandler("scan", cmd_scan))
+
+    # Callback Handler for buttons
     app.add_handler(CallbackQueryHandler(button_handler))
 
-    log.info("Polling…")
+    print("✅ Bot is starting...")
     app.run_polling()
 
 
